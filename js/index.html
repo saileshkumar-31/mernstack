@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js learn</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body >
+    <div class="max-w-[100%]">
+        <div class="w-[90%] mx-auto flex flex-col justify-center items-center gap-5 h-screen">                
+            <h1 class="text-2xl font-bold">Counter</h1>
+            <p id="count">0</p>
+            <div class="flex gap-5">
+                <button class="px-5 py-2 bg-green-300 rounded-lg" id="startbtn">Start</button>
+                <button class="px-5 py-2 bg-red-300 rounded-lg"  id="stopbtn">Stop</button>
+                <button class="px-5 py-2 bg-blue-300 rounded-lg"  id="timeupbtn">Timeup</button>
+            </div>   
+        </div>
+    </div>
+</body>
+<script>
+    const startbtn=document.getElementById("startbtn");
+    const stopbtn=document.getElementById("stopbtn");
+    const timeupbtn=document.getElementById("timeupbtn");
+    const count=document.getElementById("count");
+    var setI;
+    startbtn.addEventListener("click",()=>{
+       setI =setInterval(()=>{
+        count.textContent = parseInt(count.textContent) + 1;
+       },1000);
+    })
+
+    stopbtn.addEventListener("click", ()=>{
+        clearInterval(setI);
+    },1000);
+
+    timeupbtn.addEventListener("click", ()=>{
+        setTimeout(()=>{
+            alert("Time up!");
+            clearInterval(setI);
+        },2000);
+    })
+
+</script>
+    
+
+</html>
+
