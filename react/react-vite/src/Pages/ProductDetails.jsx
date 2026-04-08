@@ -1,33 +1,18 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { useEffect } from 'react';
-import { useState } from 'react';
+
+import useProductById from '../hooks/useProductById';
 
 
 const ProductDetails = () => {
   const { productId } = useParams();
-
-  const [productDetailData, setProductDetailData] = useState([ ]);
-
-  const ProductDetail = async()=>{
-    try{
-      const res = await fetch(`https://dummyjson.com/products/${productId}`)
-      const resData = await res.json();
-      setProductDetailData(resData);
-      console.log(resData);
-    }
-    catch(err){
-      console.log("Error fetching product details", err);
-    }
-  };
-
-  useEffect(()=>{
-    ProductDetail();
-  }, [productId])
-
-  console.log("productDetailData: ", productDetailData);
-
-  return (
+  const {isLoading, productDetailData}= useProductById(productId)
+  if(isLoading){
+    return(
+      <p>Loading...</p>
+    )
+  }else{
+    return (
     <div>
       <section className="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
   <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
@@ -191,6 +176,13 @@ const ProductDetails = () => {
 
     </div>
   )
+    
+  }
+
+  
+
+ 
+  
 }
 
 export default ProductDetails
