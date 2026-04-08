@@ -3,47 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>js learn</title>
+    <title>Form</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!--FireBase SDK-->
+<script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 </head>
-<body >
-    <div class="max-w-[100%]">
-        <div class="w-[90%] mx-auto flex flex-col justify-center items-center gap-5 h-screen">                
-            <h1 class="text-2xl font-bold">Counter</h1>
-            <p id="count">0</p>
-            <div class="flex gap-5">
-                <button class="px-5 py-2 bg-green-300 rounded-lg" id="startbtn">Start</button>
-                <button class="px-5 py-2 bg-red-300 rounded-lg"  id="stopbtn">Stop</button>
-                <button class="px-5 py-2 bg-blue-300 rounded-lg"  id="timeupbtn">Timeup</button>
-            </div>   
+
+<body>
+    <div class=" max-w-[100%] bg-slate-500 ">
+        <div class="w-[90%] mx-auto h-screen flex justify-center items-center space-y-4">
+            <div class="bg-gray-300 rounded-2xl p-25 border shadow-lg ">
+            <h1 class="text-center text-2xl font-bold">Login Form</h1>    
+                <form action="" class="flex flex-col gap-4" id="loginForm">  
+                    <label type="text">Name</label>
+                    <input type="text" placeholder="Your Name" class="border px-5 py-2 rounded-lg bg-white" id="name">
+                    <p id="nameerr" class="text-red-600"></p>
+                    <label type="email" >Email</label>
+                    <input type="text" placeholder="Email Address" class="border px-5 py-2 rounded-lg bg-white" id="email">
+                    <p id="emailerr" class="text-red-600"></p>
+                    <label type="password">Password</label>
+                    <input type="password" placeholder="Password" class="border px-5 py-2 rounded-lg bg-white" id="pass">
+                    <p id="passerr" class="text-red-600"></p>
+                    <button class="text-center px-5 py-2 bg-green-500 rounded-lg text-white">Submit</button>
+                </form>
+            </div>
+
         </div>
     </div>
-</body>
-<script>
-    const startbtn=document.getElementById("startbtn");
-    const stopbtn=document.getElementById("stopbtn");
-    const timeupbtn=document.getElementById("timeupbtn");
-    const count=document.getElementById("count");
-    var setI;
-    startbtn.addEventListener("click",()=>{
-       setI =setInterval(()=>{
-        count.textContent = parseInt(count.textContent) + 1;
-       },1000);
-    })
-
-    stopbtn.addEventListener("click", ()=>{
-        clearInterval(setI);
-    },1000);
-
-    timeupbtn.addEventListener("click", ()=>{
-        setTimeout(()=>{
-            alert("Time up!");
-            clearInterval(setI);
-        },2000);
-    })
-
-</script>
     
+</body>
+
+<script>
+    const loginForm = document.getElementById("loginForm");
+    const name=document.getElementById("name");
+    const email=document.getElementById("email");
+    const pass=document.getElementById("pass");
+    const emailerr=document.getElementById("emailerr");
+    const passerr=document.getElementById("passerr");
+    const nameerr=document.getElementById("nameerr");
+
+    loginForm.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        console.log("Name:", name.value);
+        console.log("Email:", email.value);
+        console.log("Password:", pass.value);
+        var isValid=advancedValidation(name.value,email.value,pass.value);
+        if(isValid){
+            saveData(name.value,email.value,pass.value);
+            console.log("Data saved successfully!");
+        }
+        
+    })
+
+    const saveData = (name,email,pass)=>{    
+    // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYVQjH9Mefb0utaqrFpdfYbc2_FP0eWns",
+    authDomain: "forms-2b409.firebaseapp.com",
+    databaseURL: "https://forms-2b409-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "forms-2b409",
+    storageBucket: "forms-2b409.firebasestorage.app",
+    messagingSenderId: "570952062207",
+    appId: "1:570952062207:web:17ae8e706e98ac39a2e8ca"
+  };
+    firebase.initializeApp(firebaseConfig);
+
+    const db = firebase.database().ref("ReqForm");
+
+    db.push({
+        name: name,
+        email: email,
+        pass: pass,
+    });}
+
+
+    const advancedValidation =(name,email,pass)=>{
+
+        var isValid=true;
+        const nameRegex=/^[A-Za-z]{3,14}$/
+        if(name.match(nameRegex)){
+            console.log("Valid name");
+        }else{
+            console.log("Invalid name");
+            nameerr.textContent="Invalid name!";
+        }
+
+        const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/ 
+
+        if(email.match(emailRegex)){
+            console.log("Valid email address");
+
+        }else{
+            console.log("Invalid email address");
+            emailerr.textContent="Invalid email address!";
+            isValid=false;
+        }
+
+        const passRegex= /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+
+        if(pass.match(passRegex)){
+            console.log("Valid password");
+        }else{
+            console.log("Invalid password");
+            passerr.textContent="Invalid password!";
+            isValid=false;
+        }
+
+        if(isValid){
+            alert("login successful!");
+            setTimeout(()=>{
+                loginForm.reset();
+            },1000);
+        }
+        return isValid;
+
+    }
+ 
+</script>
 
 </html>
-
