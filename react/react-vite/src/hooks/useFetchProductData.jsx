@@ -24,6 +24,7 @@ const useFetchProductData = () => {
         console.log("fetching data...");
         fetchData();
     },[]);
+
   return { productData, isLoading };
     
 }
