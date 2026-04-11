@@ -2,6 +2,8 @@ import React from 'react'
 import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import UserStore from '../store/UserStore';
+
 
 const AppLayout=()=>{
     // var [count,setCount] =useState(0);
@@ -17,26 +19,11 @@ const AppLayout=()=>{
 
     return(
         <div>
+            <UserStore.Provider value={{name: "MernStack"}}>
             <Header/>
-            {/* <Counter/>
-            
-             <Component/>
-            <p>{count}</p>
-            <p>App Layout</p>
-            <h1>{name}</h1>
-
-            <button onClick={()=>{
-                setName("SK")
-            }}>change</button>
-
-            <h1>{mut}</h1>
-
-             <button onClick={()=>{
-                setMut("Sailesh kumar S")
-            }}>change</button> */}
-
             <Outlet/>
             <Footer/> 
+            </UserStore.Provider>
         </div>
     )
 }

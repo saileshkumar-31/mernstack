@@ -2,10 +2,13 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 
 import useProductById from '../hooks/useProductById';
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext';
 
 
 const ProductDetails = () => {
   const { productId } = useParams();
+  const {name, data, text , setText} = useContext(AppContext);
   const {isLoading, productDetailData}= useProductById(productId)
   if(isLoading){
     return(
@@ -13,7 +16,10 @@ const ProductDetails = () => {
     )
   }else{
     return (
+      
+    
     <div>
+      <p> {text}</p>
       <section className="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
   <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
     <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
@@ -175,14 +181,9 @@ const ProductDetails = () => {
 </section>
 
     </div>
-  )
+    )
     
   }
-
-  
-
- 
-  
 }
 
 export default ProductDetails

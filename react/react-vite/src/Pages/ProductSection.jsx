@@ -3,6 +3,20 @@ import {v4 as uuidv4 } from "uuid";
 import {Link} from "react-router-dom";
 import useFetchProductData from '../hooks/useFetchProductData';
 
+const ProductCardwithBrand =(Component)=>{
+
+  const NewComponent =(props)=>{
+    return(
+      <div>
+        <p className = {`py-3 rounded-lg bg-white text-black text-center ${props.brand ? " " : "bg-black"} `}>{props.brand? props.brand :" "} </p>
+        <Component {...props}/>
+      </div>
+    );
+  };
+
+  return NewComponent;
+};
+
 export const ProductCard=(props)=>{
   console.log(props)
   return(
@@ -239,6 +253,9 @@ export const ProductCard=(props)=>{
 export const ProductSection = () => {
   
 const {isLoading, productData } = useFetchProductData();
+
+const ProductNewUI = ProductCardwithBrand(ProductCard);
+
 if(isLoading){
   return(
     <p className='text-white'>
@@ -259,8 +276,9 @@ if(isLoading){
       return(
         <div >
           
-          <ProductCard
+          <ProductNewUI
           key={uuidv4()}
+          brand = {item.brand}
           product_id={item.id}
           product_name = {item.title}
           price ={item.price}
