@@ -1,0 +1,1 @@
+export const carimg = "https://ik.imagekit.io/saileshkumar/Mern/photo-1628519592419-bf288f08cef5.jpeg?updatedAt=1767680560572";
